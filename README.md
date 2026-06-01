@@ -1,44 +1,89 @@
-# This file can be used as a template for initializing and running spring projects.
+# XMeme - Meme Sharing API
 
-# What's included:
+A RESTful API for sharing memes built with Spring Boot and MongoDB. Users can post memes with a name, caption, and image URL, browse the latest memes, and retrieve individual memes by ID.
 
-# 
+## Overview
 
-# Gradle file created from start.spring.io
+XMeme provides a simple meme-sharing backend with duplicate detection, input validation, and paginated listing of the most recent memes.
 
-# Plugins for Spotbugs, Checkstyle and Jacoco included
+## Tech Stack
 
-# Other dependencies like Mongo, MySql and redis.
+- Java 11
+- Spring Boot 2.7.1
+- Spring Data MongoDB
+- Spring Data Redis
+- Spring AMQP
+- Lombok
+- Spring Validation
+- Gradle
+- Spotbugs, Checkstyle, Jacoco (code quality)
+- Docker
 
-# Dockerfile to start mongo server and run the spring boot application within.
+## Project Structure
 
-# 
+```
+src/main/java/com/crio/starter/
+├── App.java                        # Spring Boot entry point
+├── controller/
+│   └── MemeController.java         # REST endpoints
+├── data/
+│   └── Meme.java                   # MongoDB document model
+├── exchange/
+│   ├── CreateMemeRequestDto.java   # Create request DTO
+│   ├── CreateMemeResponseDto.java  # Create response DTO
+│   └── MemeResponseDto.java        # Get response DTO
+├── repository/
+│   └── MemeRepository.java         # MongoDB repository
+└── service/
+    └── MemeService.java            # Business logic
+```
 
-# Usage -
+## API Endpoints
 
-# 
+| Method | Endpoint | Description | Status Codes |
+|--------|----------|-------------|--------------|
+| POST | `/memes` | Create a new meme | 201, 400, 409 |
+| GET | `/memes` | Get latest 100 memes | 200 |
+| GET | `/memes/{id}` | Get a meme by ID | 200, 404 |
 
-# To build the repository -
+### Create Meme Request
 
-# 
+```json
+{
+  "name": "Author Name",
+  "caption": "Meme caption text",
+  "url": "https://example.com/meme.jpg"
+}
+```
 
-# From the repository root,
+## Features
 
-# 
+- Duplicate detection (same name + caption + url returns 409 Conflict)
+- Input validation (name, caption, url required and non-blank)
+- Latest 100 memes returned in reverse chronological order
+- Code quality enforcement with Spotbugs, Checkstyle, and Jacoco
 
-# run ./gradlew build testrun the build
+## Build & Run
 
-# run ./gradlew bootjar to create executable jar. The jar will be located inside build directories.
+```bash
+# Build the project
+./gradlew build
 
-# 
+# Run the application
+./gradlew bootRun
 
-# To run inside docker container, use below commands
+# Run tests
+./gradlew test
 
-# To build docker image, use the command below - docker build -t your\_tag\_name  .
+# Generate code coverage report
+./gradlew jacocoTestReport
+```
 
-# To run the generated container, use this command - docker run -p8080:8080 your\_tag\_name. This will run the server on 8080 port.. You can change the ports as per your needs.
+## Prerequisites
 
-# License -
+- MongoDB
+- Redis (optional)
 
-# While this repository is licensed under APACHE 2.0 license, It is mandatory for users to share the readme.md and License file along with the changes they do in the contents.
+## Author
 
+Balaji R — Crio.Do

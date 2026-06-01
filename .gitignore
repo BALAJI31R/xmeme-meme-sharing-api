@@ -1,3 +1,6 @@
+# Crio platform files
+__CRIO__/
+
 .vscode
 /node_modules/
 /assessment/node_modules/
